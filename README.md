@@ -1,67 +1,73 @@
-# test-bank-app
+# API de Webhooks e Gerenciamento de Cartões
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+---
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Funcionalidades
 
-## Running the application in dev mode
+### Webhooks
+- **Webhook de Processador de Cartões**
+    - Endpoint para processar atualizações de CVV e data de expiração dos cartões físicos.
+- **Webhook de Entregas**
+    - Endpoint para processar atualizações de status de entrega e ativar cartões quando entregues.
 
-You can run your application in dev mode that enables live coding using:
+### Gerenciamento
+- **Clientes**
+    - Criar novos cadastros de clientes.
+    - Cancelar contas associadas a clientes existentes.
+- **Cartões**
+    - Reemissão de cartões físicos com validação de motivos autorizados.
 
-```shell script
-./mvnw quarkus:dev
-```
+---
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+## Tecnologias Utilizadas
 
-## Packaging and running the application
+- **Linguagem**: Java 17
+- **Framework**: Quarkus
+- **Persistência**: JPA/Hibernate com MySQL
+- **Dependências Adicionais**:
+    - **MicroProfile OpenAPI** para geração de documentação Swagger.
+    - **JUnit 5** para testes unitários.
+    - **Mockito** para mock de dependências. 
+- **Ferramentas de Build**: Maven
 
-The application can be packaged using:
+---
 
-```shell script
-./mvnw package
-```
+## Estrutura do Projeto
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+A arquitetura do projeto foi organizada nas seguintes camadas:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+1. **Controller**: Responsável por expor os endpoints da API.
+2. **Service**: Contém a lógica de negócio.
+3. **Repository**: Gerencia as operações de persistência com o banco de dados.
+4. **Model**: Define as entidades.
 
-If you want to build an _über-jar_, execute the following command:
+---
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+## Endpoints Documentados com Swagger
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+A API foi documentada utilizando **MicroProfile OpenAPI**. A documentação está disponível automaticamente na URL: http://localhost:8080/q/swagger-ui
 
-## Creating a native executable
+## Configuração do Banco de Dados
 
-You can create a native executable using:
+A aplicação utiliza um banco de dados **MySQL**. Certifique-se de que o banco esteja configurado antes de executar o projeto.
 
-```shell script
-./mvnw package -Dnative
-```
+### Script de Criação do Banco de Dados
+O script `import.sql` contém as definições iniciais para criação das tabelas e dados básicos.
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+---
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+## Testes
 
-You can then execute your native executable with: `./target/test-bank-app-1.0.0-SNAPSHOT-runner`
+### Testes Unitários
+Os testes unitários foram implementados utilizando **JUnit 5** e **Mockito**, cobrindo as principais classes de serviço e controladores.
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+### Como Executar os Testes
+1. Navegue até o diretório raiz do projeto.
+2. Execute o comando:
+   ```bash
+   mvn test
+## Execute a aplicação:
 
-## Related Guides
-
-- REST JSON-B ([guide](https://quarkus.io/guides/rest#json-serialisation)): JSON-B serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- JDBC Driver - MySQL ([guide](https://quarkus.io/guides/datasource)): Connect to the MySQL database via JDBC
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+1. Execute o comando:
+```bash
+   ./mvnw compile quarkus:dev
